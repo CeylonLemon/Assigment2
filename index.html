@@ -9,16 +9,120 @@
     <link rel="stylesheet" type="text/css" media="screen" href="styles/provided.css" />
     <script type="module" src="src/helpers.js"></script>
     <script type="module" src="src/api.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            document.getElementById('login-btn').addEventListener('click', openLogin);
+            document.getElementById('register-btn').addEventListener('click', openRegister);
+            document.getElementById('login-submit').addEventListener('click',login);
+            close_btn.forEach((btn,i)=>document.getElementById(btn).addEventListener('click', closePopup(btn.slice(6))));
+            document.getElementById('close_username_error').addEventListener('click', closePopup('username_error'));
+        }
+
+        let close_btn = ['close_username_error', 'close_pwd_error', 'close_cpwd_error']
+
+        function displaylogin(){
+            var username = document.getElementById('username').value;
+            console.log(username);
+        }
+
+        function openLogin(){
+            document.getElementById('register').style.visibility = 'hidden';
+            document.getElementById('login').style.visibility = 'visible';
+        }
+
+        function openRegister(){
+            document.getElementById('login').style.visibility = 'hidden';
+            document.getElementById('register').style.visibility ='visible';
+        }
+
+        function login(){
+            console.log('login');
+            let name = document.getElementById('username');
+            let pwd1 = document.getElementById('password');
+            let pwd2 = document.getElementById('confirm');
+             console.log(name);
+            // if(pwd1!=pwd2) popupError('password');
+            if(!name.value) popupError('username_error'); 
+            else if(!pwd1.value) popupError('pwd_error');
+            else if (!pwd2.value) popupError('cpwd_error');            
+            else console.log(name.value,pwd1.value);
+            
+        }
+
+        function popupError(id){
+
+           document.getElementById(id).style.visibility='visible';
+        }
+
+        function closePopup(id){
+            console.log(id);
+            document.getElementById(id).style.visibility='hidden';
+        }
+
+
+    </script>
 </head>
 <body>
     <!-- This is an example app structure, you can modify this as much as you choose --> 
     <header class="banner">
         <h1>Quickpic</h1>
         <ul class="nav">
-            <li class="nav-item">Item</li>
-            <li class="nav-item">Item</li>
+            <button id="login-btn">Login</button>
+            <button id="register-btn">Register</button>
         </ul>
+
     </header>
+    <div class="main-container">
+        <div class="login" id="login">
+            <div class="username" >
+                <div class="input"><span>username  </span><input id="username" type="text" name="username"></div>
+                
+                <div id="username_error"><h4>Username cannot be empty!<button id="close_username_error">X</button></h4></div>
+            </div>
+            <div class="password" >
+                <div class="input"><span>password  </span><input id="password" type="text" name="username"></div>
+                
+                <div id="pwd_error"><h4>Password cannot be empty!<button id="close_pwd_error">X</button></h4></div>
+            </div>            
+            <div class="confirm" >
+                <div class="input"><span>confirm  </span><input id="confirm" type="text" name="username"></div>
+                <div id="cpwd_error"><h4>Confirm-password can not be empty!<button id="close_cpwd_error">X</button></h4></div>
+                
+            </div>
+
+            <button id="login-submit">Login</button>
+        </div>
+        <form class="register" id="register">
+            <div class="username" >
+                <div class="input"><span>username</span><input type="text" name="username"></div>
+                <div class="error"><h8>Username cannot be empty!<button id="close_username_reg">X</button></h8></div>
+
+            </div>
+            <div class="password" >
+                <div class="input"><span>password  </span><input type="text" name="username"></div>
+                <div class="error"><h8>Password cannot be empty!<button id="close_pwd_reg">X</button></h8></div>
+
+            </div>            
+            <div class="confirm">
+                <div class="input"><span>confirm  </span><input type="text" name="username"></div>
+                <div class="error"><h8>Confirm-password cannot be empty!<button id="close_cpwd_reg">X</button></h8></div>
+
+            </div>
+            <div class="email" id="email">
+                <div class="input"><span>email address  </span><input type="text" name="username"></div>
+                <div class="error"><h8>Email address cannot be empty!<button id="close_email_reg">X</button></h8></div>
+
+            </div>
+            <div class="name" id="name">
+                <div class="input"><span>name  </span><input type="text" name="username"></div>
+                <div class="error"><h8>Name cannot be empty!<button id="close_name_reg">X</button></h8></div>
+
+            </div>
+
+            <button id="register-submit" >register</button>
+        </form>
+
+    </div>
     <main role="main">
         <!-- app goes here --> 
     </main>

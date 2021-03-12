@@ -8,6 +8,66 @@ html, body {
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.main-container{
+    height: 80%;
+}
+
+.login,.register{
+    position:absolute;
+    top:25%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+#login{
+    visibility: visible;
+}
+#register{
+    visibility: hidden;
+}
+input{
+    width: 70%;
+}
+
+.username,.password,.confirm,.email,.name{
+    
+    height: 8%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#username_error,#pwd_error,#cpwd_error{
+    
+    color: red;
+    position: relative;
+    left: 30%;
+}
+
+#username_error{
+    visibility: hidden;
+}
+#pwd_error{
+    visibility: hidden;
+}
+#cpwd_error{
+    visibility: hidden;
+}
+h4{
+    margin-top:1%; 
+}
+span{
+    font-size: 25px;
+}
 .banner {
     display: flex;
     flex-direction: row;
