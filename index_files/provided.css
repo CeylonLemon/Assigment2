@@ -38,27 +38,16 @@ html, body {
 }
 
 #add-posts{
-    height:50%;
-    width:40%;
     visibility: hidden;
     position: absolute;
-    top: 20%;
-    left: 35%;
+    top: 40%;
+    left: 38%;
 }
 
 #add-posts-main{
-
-    height:100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-#add-posts-main>*{
-    margin:5%;
-}
-
-#add-posts-submit{
-    width:17%;
 }
 
 .login,.register{
@@ -95,8 +84,10 @@ input{
     flex-direction: row;
     justify-content: space-between;
 }
-.pop-error{
-    visibility: hidden;
+#username_error,#pwd_error,#cpwd_empty_error,#cpwd_mismatch_error,
+#username_error_reg,#pwd_error_reg,#cpwd_empty_error_reg,#cpwd_mismatch_error_reg,
+#email_error,#name_error{
+    
     color: red;
     position: relative;
     left: 30%;
@@ -108,7 +99,7 @@ input{
     left: 34%;
     bottom: 13.5%;
     padding-top: 5%;
-    visibility: hidden;
+    visibility: visible;
 }
 
 #cpwd_mismatch_error_reg{
@@ -117,14 +108,14 @@ input{
     left: 34%;
     bottom: 40%;
     padding-top: 5%;
-    visibility: hidden;
+    visibility: visible;
 }
 
-/*#username_error,#pwd_error,#cpwd_empty_error,#cpwd_mismatch_error,*/
-/*#username_error_reg,#pwd_error_reg,#cpwd_empty_error_reg,#cpwd_mismatch_error_reg,*/
-/*#email_error,#name_error{*/
-/*    visibility: hidden;*/
-/*}*/
+#username_error,#pwd_error,#cpwd_empty_error,#cpwd_mismatch_error,
+#username_error_reg,#pwd_error_reg,#cpwd_empty_error_reg,#cpwd_mismatch_error_reg,
+#email_error,#name_error{
+    visibility: hidden;
+}
 /*#pwd_error{
     visibility: hidden;
 }
@@ -134,12 +125,6 @@ input{
 
 h4{
     margin-top:1%; 
-}
-
-#my-profile{
-    position: absolute;
-    bottom: 35%;
-    left: 32%;
 }
 span{
     font-size: 25px;
@@ -192,25 +177,6 @@ footer {
     list-style-type: none;
 }
 
-.pf{
-    display: flex;
-    justify-content: space-around;
-
-}
-
-.pf_content{
-    padding-top: 10px;
-    display: flex;
-    align-content: center;
-    text-align: center;
-    width: 50%;
-
-}
-.pf_header{
-    width: 30%;
-    display: flex;
-    justify-content: flex-start;
-}
 
 
 /* Add your styles here */

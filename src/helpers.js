@@ -29,3 +29,27 @@ export function fileToDataUrl(file) {
     reader.readAsDataURL(file);
     return dataUrlPromise;
 }
+
+export function closeById(id){
+    document.getElementById(id).style.visibility = 'hidden'
+}
+
+export function addEventListener(params){
+    // if (params.length === 4) document.getElementById(params[0]).addEventListener(params[1],()=>{params[2](params[3])});
+    // else document.getElementById(params[0]).addEventListener(params[1],params[2]);
+    document.getElementById(params[0]).addEventListener(params[1],()=>{params[2](params[3])})
+}
+// export default class EventListener{
+//     constructor(para) {
+//         this.tagId = para[0];
+//         this.event = para[1];
+//         this.func = para[2];
+//     }
+
+export function open(dom){
+    dom.style.visibility = 'visible';
+}
+
+export function close(dom){
+    dom.style.visibility = 'hidden';
+}

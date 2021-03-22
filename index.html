@@ -1,63 +1,15 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
+<!-- saved from url=(0070)http://localhost:63343/ass2/index.html?_ijt=fq6s6oahpij807o73jdfagotu9 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Quickpic</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- You can add your styles and scripts here -->
-    <link rel="stylesheet" type="text/css" media="screen" href="styles/provided.css" />
-    <script type="module" src="src/helpers.js"></script>
-    <script type="module" src="src/api.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="./styles/provided.css">
+    <script type="module" src="./src/helpers.js"></script>
+    <script type="module" src="./src/api.js"></script>
     <script type="text/javascript">
-        window.onload=function(){
-            document.getElementById('login-btn').addEventListener('click', openLogin);
-            document.getElementById('register-btn').addEventListener('click', openRegister);
-            document.getElementById('login-submit').addEventListener('click',login);
-            close_btn.forEach((btn,i)=>document.getElementById(btn).addEventListener('click', closePopup(btn.slice(6))));
-            document.getElementById('close_username_error').addEventListener('click', closePopup('username_error'));
-        }
-
-        let close_btn = ['close_username_error', 'close_pwd_error', 'close_cpwd_error']
-
-        function displaylogin(){
-            var username = document.getElementById('username').value;
-            console.log(username);
-        }
-
-        function openLogin(){
-            document.getElementById('register').style.visibility = 'hidden';
-            document.getElementById('login').style.visibility = 'visible';
-        }
-
-        function openRegister(){
-            document.getElementById('login').style.visibility = 'hidden';
-            document.getElementById('register').style.visibility ='visible';
-        }
-
-        function login(){
-            console.log('login');
-            let name = document.getElementById('username');
-            let pwd1 = document.getElementById('password');
-            let pwd2 = document.getElementById('confirm');
-             console.log(name);
-            // if(pwd1!=pwd2) popupError('password');
-            if(!name.value) popupError('username_error'); 
-            else if(!pwd1.value) popupError('pwd_error');
-            else if (!pwd2.value) popupError('cpwd_error');            
-            else console.log(name.value,pwd1.value);
-            
-        }
-
-        function popupError(id){
-
-           document.getElementById(id).style.visibility='visible';
-        }
-
-        function closePopup(id){
-            console.log(id);
-            document.getElementById(id).style.visibility='hidden';
-        }
 
 
     </script>
@@ -66,69 +18,130 @@
     <!-- This is an example app structure, you can modify this as much as you choose --> 
     <header class="banner">
         <h1>Quickpic</h1>
-        <ul class="nav">
-            <button id="login-btn">Login</button>
-            <button id="register-btn">Register</button>
-        </ul>
 
+        <ul class="nav">
+            <div class="lgout" ><span id="un_header"></span>
+                <button class="btn1" id="logout-btn" func="Logout">Logout</button></div>
+            <div class="lgin" >
+                <button class="btn1" id="login-btn" func="openLogin">Login</button>
+                <button class="btn1" id="register-btn" func="openRegister">Register</button>
+            </div>
+            
+            
+
+        </ul>
+        
     </header>
     <div class="main-container">
-        <div class="login" id="login">
-            <div class="username" >
+        <div class="login" id="login" >
+            <div class="username">
                 <div class="input"><span>username  </span><input id="username" type="text" name="username"></div>
                 
-                <div id="username_error"><h4>Username cannot be empty!<button id="close_username_error">X</button></h4></div>
+                <div class="pop-error"  id="username_error" ><h4>Username cannot be empty!<button class="pop-error-btn" id="close_username_error">X</button></h4></div>
             </div>
-            <div class="password" >
+            <div class="pwd">
                 <div class="input"><span>password  </span><input id="password" type="text" name="username"></div>
                 
-                <div id="pwd_error"><h4>Password cannot be empty!<button id="close_pwd_error">X</button></h4></div>
+                <div class="pop-error" id="pwd_error" ><h4>Password cannot be empty!<button class="pop-error-btn" id="close_pwd_error">X</button></h4></div>
             </div>            
-            <div class="confirm" >
+            <div class="confirm">
                 <div class="input"><span>confirm  </span><input id="confirm" type="text" name="username"></div>
-                <div id="cpwd_error"><h4>Confirm-password can not be empty!<button id="close_cpwd_error">X</button></h4></div>
+                <div class="pop-error" id="cpwd_empty_error" ><h4>Confirm-password can not be empty!<button class="pop-error-btn" id="close_cpwd_empty_error">X</button></h4></div>
+                <div class="pop-error" id="cpwd_mismatch_error" ><h4>Two passwords don't match!<button class="pop-error-btn" id="close_cpwd_mismatch_error">X</button></h4></div>
                 
             </div>
 
-            <button id="login-submit">Login</button>
+            <button class="btn1" id="login-submit" func="login">Login</button>
         </div>
-        <form class="register" id="register">
-            <div class="username" >
-                <div class="input"><span>username</span><input type="text" name="username"></div>
-                <div class="error"><h8>Username cannot be empty!<button id="close_username_reg">X</button></h8></div>
+        <div class="register" id="register">
+            <div class="username">
+                <div class="input"><span>username</span><input id="username_reg" ,type="text" name="username"></div>
+                <div class="pop-error" id="username_error_reg"><h8>Username cannot be empty!<button class="pop-error-btn" id="close_username_error_reg">X</button></h8></div>
 
             </div>
-            <div class="password" >
-                <div class="input"><span>password  </span><input type="text" name="username"></div>
-                <div class="error"><h8>Password cannot be empty!<button id="close_pwd_reg">X</button></h8></div>
+            <div class="pwd">
+                <div class="input"><span>password  </span><input id="password_reg" type="text" name="username"></div>
+                <div class="pop-error" id="pwd_error_reg"><h8>Password cannot be empty!<button class="pop-error-btn" id="close_pwd_error_reg">X</button></h8></div>
 
             </div>            
             <div class="confirm">
-                <div class="input"><span>confirm  </span><input type="text" name="username"></div>
-                <div class="error"><h8>Confirm-password cannot be empty!<button id="close_cpwd_reg">X</button></h8></div>
+                <div class="input"><span>confirm  </span><input id="confirm_reg" ,type="text" name="username"></div>
+                <div class="pop-error" id="cpwd_empty_error_reg"><h8>Confirm-password cannot be empty!<button class="pop-error-btn" id="close_cpwd_empty_error_reg">X</button></h8></div>
+                <div class="pop-error" id="cpwd_mismatch_error_reg"><h4>Two passwords don't match!<button class="pop-error-btn" id="close_cpwd_mismatch_error_reg">X</button></h4></div>
 
             </div>
-            <div class="email" id="email">
-                <div class="input"><span>email address  </span><input type="text" name="username"></div>
-                <div class="error"><h8>Email address cannot be empty!<button id="close_email_reg">X</button></h8></div>
+            <div class="email">
+                <div><span>email address  </span><input id="email" ,type="text" name="username"></div>
+                <div class="pop-error" id="email_error"><h8>Email address cannot be empty!<button class="pop-error-btn" id="close_email_error">X</button></h8></div>
 
             </div>
-            <div class="name" id="name">
-                <div class="input"><span>name  </span><input type="text" name="username"></div>
-                <div class="error"><h8>Name cannot be empty!<button id="close_name_reg">X</button></h8></div>
+            <div class="name">
+                <div class="input"><span>name  </span><input type="text" id="name" name="username"></div>
+                <div class="pop-error" id="name_error"><h8>Name cannot be empty!<button class="pop-error-btn" id="close_name_error">X</button></h8></div>
 
             </div>
 
-            <button id="register-submit" >register</button>
-        </form>
+            <button class="btn1" id="register-submit" func="register">register</button>
+        </div>
+        
 
     </div>
-    <main role="main">
+    <main role="main" id="main-page" >
+        <div class="main-bar">
+            <button id="all-posts-btn" class="btn1" func=deee>Lobby</button>
+            <button id="add-posts-btn" class="btn1">Add Post</button>
+            <button id="personal-posts-btn" class="btn1">My Posts</button>
+            <button id="my-profile-btn" class="btn1">My profile</button>
+
+        </div>
+        <div class="all_apps">
+            <div id="no-posts" >
+                <h1>No posts</h1>
+            </div>
+
+            <div id="add-posts" >
+                <div id="add-posts-main">
+                    <div>
+                        <h3>Description</h3>
+                        <textarea id="add-posts-des" class="add-post-form" cols="40" rows="2"></textarea>
+                    </div>
+                    
+    
+
+                    <div>
+                        <h3>Choose a file to post</h3>
+                        <input type="file" id="add-posts-file" class="add-post-form">
+                    </div>
+                    <div>
+                        <h3>Submit your post</h3>
+                        <button id="add-posts-submit" class="add-post-form">submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="all-posts" ></div>
+            <div id="personal-posts" ></div>
+            <div id="my-profile" style="visibility: visible">
+                <ul class="pf"><h3 class="pf_header">UserName: </h3 ><span class="pf_content">z5192421</span></ul>
+                <ul class="pf"><h3 class="pf_header">Password: </h3><span class="pf_content">6898929</span></ul>
+                <ul class="pf"><h3 class="pf_header">Name: </h3><span class="pf_content">HaoChen</span></ul>
+                <ul class="pf"><h3 class="pf_header">Email: </h3><span class="pf_content">nicky71294@gmail.com</span></ul>
+
+
+
+
+            </div>
+        </div>
+
         <!-- app goes here --> 
     </main>
     <footer>
-        <p>&copy; Quickpic</p>
+        <p>© Quickpic</p>
     </footer>
-    <script type="module" src="src/main.js"></script>
-</body>
-</html>
+<!--    <script type="module" src="./src/main.js"></script>-->
+    <script type="module" src="./src/loginRegister.js"></script>
+    <script type="module" src="./src/service.js"></script>
+    <script type="module" src="./src/eventlistener.js"></script>
+
+
+</body></html>
