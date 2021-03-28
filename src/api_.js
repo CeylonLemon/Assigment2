@@ -13,14 +13,10 @@ function processResponse(r){
     if(r.status === 200){
         return r.json();
     }else {
-        return r.json().then((data) => {
-            let error = new Error(r.status+' '+data);
-            error.response = data;
+            let error = new Error(r.status+' ');
+
             error.status = r.status;
             throw error;
-        })
-        
-
     }
 }
 /**

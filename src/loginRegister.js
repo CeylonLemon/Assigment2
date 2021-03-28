@@ -54,15 +54,7 @@ import {addEventListener} from "./helpers.js";
                     method:"POST"
                 };
 
-                const stopLogin = new Promise(()=>{
-                    document.getElementById('login').style.visibility='hidden'
-                    const p = new Promise(()=>document.getElementsByClassName('lgin')[0].style
-                        .display='none')
 
-                    p.then(document.getElementsByClassName('lgout')[0].style
-                        .visibility = 'visible')
-
-                })
                 const api = new API('http://localhost:5000')
 
                 api.makeAPIRequest('auth/login',othePram)
@@ -73,11 +65,32 @@ import {addEventListener} from "./helpers.js";
                         return t
                     })
                     .then(t=>{
+
                         // const s = new SERVICE(t,name);
                         service.token = t;
-                        service.un = name
-                        service.startService(stopLogin);
-                    }).catch(e=>alert(e.message))
+                        service.username = name
+                        service.password = pwd1
+                        // const Para = {
+                        //     headers:{
+                        //         "Content-Type": "application/json",
+                        //         "Authorization": 'Token '+t
+                        //     },
+                        //     method:"GET"
+                        //
+                        // }
+                        service.update =
+                            service.httpGet(`user/?username=${name}`)
+                            .then(data=>{service.updateInfo(data);return 'ok'})
+
+                        // service.update =
+                        //     service.api.makeAPIRequest(`user/?username=${name}`, Para)
+                        //         .then(data => {service.updateInfo(data);return 'yes';})
+
+
+                        service.startService();
+                    }).catch(e=>{
+                        alert('Invalid username/password!')
+                })
 
             }
             // console.log(name.value,pwd1.value);
@@ -120,20 +133,13 @@ import {addEventListener} from "./helpers.js";
                     body:JSON.stringify(Data),
                     method:"POST"
                 };
-                // console.log(Data)
-                // fetch(url, othePram)
-                // .then(data=>{return data.json()})
-                // .then(res=>{console.log(res.token)})
-                // .catch(error=>console.log(error))
+
                 const api = new API('http://localhost:5000');
                 const stopLogin = new Promise(()=>{
                     document.getElementById('register').style.visibility='hidden'
-                    const p = new Promise(()=>document.getElementsByClassName('lgin')[0].style
-                        .display='none')
-                    
-                    p.then(document.getElementsByClassName('lgout')[0].style
-                        .visibility = 'visible')
-                    
+                    document.getElementsByClassName('lgin')[0].style.display='none'
+                    document.getElementsByClassName('lgout')[0].style
+                        .visibility = 'visible'
                     })
                 
                 api.makeAPIRequest('auth/signup',othePram)
@@ -145,7 +151,8 @@ import {addEventListener} from "./helpers.js";
                 })
                 .then(t=>{
                     service.token = t;
-                    service.un = username;
+                    service.username = username;
+                    service.password = pwd1;
                     service.startService(stopLogin);
                 }).catch(e=>alert(e.message))                
             }

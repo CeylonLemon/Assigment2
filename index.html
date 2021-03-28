@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0070)http://localhost:63343/ass2/index.html?_ijt=fq6s6oahpij807o73jdfagotu9 -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Quickpic</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,8 @@
         
     </header>
     <div class="main-container">
-        <div class="login" id="login" >
+<!--        <div class="login" id="login" style="visibility: hidden" >-->
+        <div class="login" id="login">
             <div class="username">
                 <div class="input"><span>username  </span><input id="username" type="text" name="username"></div>
                 
@@ -88,16 +89,17 @@
     </div>
     <main role="main" id="main-page" >
         <div class="main-bar">
-            <button id="all-posts-btn" class="btn1" func=deee>Lobby</button>
+            <button id="all-posts-btn" class="btn1" >Lobby</button>
             <button id="add-posts-btn" class="btn1">Add Post</button>
             <button id="personal-posts-btn" class="btn1">My Posts</button>
             <button id="my-profile-btn" class="btn1">My profile</button>
 
         </div>
         <div class="all_apps">
-            <div id="no-posts" >
-                <h1>No posts</h1>
-            </div>
+
+
+
+
 
             <div id="add-posts" >
                 <div id="add-posts-main">
@@ -119,18 +121,101 @@
                 </div>
             </div>
 
-            <div id="all-posts" ></div>
-            <div id="personal-posts" ></div>
-            <div id="my-profile" style="visibility: visible">
-                <ul class="pf"><h3 class="pf_header">UserName: </h3 ><span class="pf_content">z5192421</span></ul>
-                <ul class="pf"><h3 class="pf_header">Password: </h3><span class="pf_content">6898929</span></ul>
-                <ul class="pf"><h3 class="pf_header">Name: </h3><span class="pf_content">HaoChen</span></ul>
-                <ul class="pf"><h3 class="pf_header">Email: </h3><span class="pf_content">nicky71294@gmail.com</span></ul>
+<!--            <div id="all-posts" style="visibility: visible" >-->
+            <div id="all-posts">
+                <div class="posts">
+                    <div>
+                        <ul>No posts</ul>
+                    </div>
+<!--                    <div class="comments">-->
+<!--                        <div class="comments-container">-->
+<!--                            <div><span>Liked by: </span></div>-->
+<!--                            <h1>Comments: </h1>-->
+<!--                        </div>-->
+<!--                        <div class="add-comments">-->
+<!--                            <textarea id="comment-content"></textarea>-->
+<!--                            <button class="btn1" id="comment-submit">submit</button>-->
+<!--                        </div>-->
+
+                </div>
+
+
+
+
+                <div class="follow-container">
+                    <h1>Follow</h1>
+                    <div class="follow-user">
+                        <input id="follow-username" type="text">
+                        <button id="follow-btn" class="btn1">follow</button>
+                    </div>
+
+                    <div class="follow">
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="personal-posts">
+
+
+            </div>
+            <div id="my-profile" >
+                <ul class="pf" id="pf_header_un">
+                    <h3 class="pf_header" >UserName: </h3 >
+                    <span class="pf_content" id="pf_username"></span>
+                </ul>
+                <ul class="pf">
+                    <h3 class="pf_header" >Password: </h3>
+                    <span class="pf_content" id="pf_password"></span>
+                    <button class="edit" id="edit_password">edit</button></ul>
+                <ul class="pf"><h3 class="pf_header" >Name: </h3>
+                    <span class="pf_content" id="pf_name"></span>
+                    <button class="edit" id="edit_name">edit</button>
+                </ul>
+                <ul class="pf">
+                    <h3 class="pf_header" >Email: </h3>
+                    <span class="pf_content" id="pf_email"></span>
+                    <button class="edit" id="edit_email">edit</button>
+                </ul>
+
+                <button id="edit-submit" >Submit</button>
 
 
 
 
             </div>
+
+            <div id="user-profile" >
+                <ul class="user-profile" id="user_header_un">
+                    <h3 class="user_header" >UserName: </h3 >
+                    <span class="user_content" id="user_username"></span>
+                    <button class="follow" id="follow_user">follow</button>
+                </ul>
+                <ul class="user-profile"><h3 class="pf_header" >Name: </h3>
+                    <span class="user_content" id="user_name"></span>
+
+                </ul>
+                <ul class="user-profile">
+                    <h3 class="user_header" >Email: </h3>
+                    <span class="user_content" id="user_email"></span>
+                </ul>
+
+                <ul class="user-profile">
+<!--                    <h3 class="user_header" >Following: </h3>-->
+                    <button class="user_content" id="following"></button>
+                </ul>
+
+                <ul class="user-profile">
+<!--                    class<h3 class="user_header" >Followed: </h3>-->
+                    <button class="user_content" id="followed"></button>
+                </ul>
+
+                <ul class="user-profile">
+<!--                    <h3 class="user_header" >Posts: </h3>-->
+                    <button class="user_content" id="posts"></button>
+                </ul>
         </div>
 
         <!-- app goes here --> 

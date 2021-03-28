@@ -63,8 +63,9 @@ html, body {
 
 .login,.register{
     position:absolute;
-    top:25%;
-    left: 25%;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     height: 50%;
     width: 50%;
     display: flex;
@@ -136,11 +137,7 @@ h4{
     margin-top:1%; 
 }
 
-#my-profile{
-    position: absolute;
-    bottom: 35%;
-    left: 32%;
-}
+
 span{
     font-size: 25px;
 }
@@ -192,13 +189,33 @@ footer {
     list-style-type: none;
 }
 
-.pf{
+#my-profile,#user-profile{
+    height:50%;
+    width:55%;
+    visibility: hidden;
+    position: absolute;
+    bottom: 30%;
+    left: 20%;
+}
+
+.pf:not(#pf_header_un){
+
     display: flex;
     justify-content: space-around;
 
 }
+#pf_header_un{
+    display:flex;
+    padding-left:7.5%;
+
+}
+#pf_username{
+    padding-left:5%;
+}
+
 
 .pf_content{
+   
     padding-top: 10px;
     display: flex;
     align-content: center;
@@ -212,5 +229,181 @@ footer {
     justify-content: flex-start;
 }
 
+/*#my-profile:first-child{*/
+/*    padding-left: 0;*/
+/*}*/
+.edit{
+    height: 40%;
+    position: relative;
+    margin-top:3%;
+    
+
+}
+
+#edit-submit{
+    visibility:hidden;
+    position:absolute;
+    left:50%;
+    bottom:0;
+
+}
+table{
+    position: absolute;
+    top: 25%;
+    left: 7.5%;
+
+    /*width: 60%;*/
+    /*height: 75%;*/
+}
+
+
+
+#personal-posts{
+    overflow: scroll;
+    position: absolute;
+    padding:1%;
+    top: 20%;
+    left: 10%;
+    width: 80%;
+    height: 65%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 2%;
+    grid-row-gap: 3%;
+
+
+}
+.grid-item{
+    height: 30vw;
+    width:20vw;
+   
+
+
+}
+.grid-item img{
+    height:20vw;
+    width:20vw;
+}
+
+.author-date{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.author-date :last-child{
+    font-size: 1px;
+}
+
+.author-date :first-child{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.metaData{
+    height:30%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+.icons{
+    margin: 5px 0 0 0;
+    display:flex;
+    text-align:center;
+}
+.icons *{
+    margin: 0 10px 0 0;
+    display:flex;
+}
+.icons * :last-child{
+    padding-top:3%;
+    text-align:center;
+}
+
+#all-posts{
+    visibility: hidden;
+    height:70%;
+    width:70%;
+    position:absolute;
+    top:60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display:flex;
+    justify-content:center;
+}
+
+.follow-container {
+    width:30%;
+    padding:10px;
+    border: 1px solid;
+    border-radius:15px;
+}
+.posts{
+    overflow:scroll;
+    width:50%;
+    padding:10px;
+    border: 1px solid;
+    border-radius:15px;
+}
+
+.post{
+    display: flex;
+    justify-content: center;
+}
+#comments{
+    height:30vw;
+}
+
+
+#comments-content{
+    margin:0 0 0 1vw;
+    height:66%;
+    overflow:scroll;
+}
+
+#user-profile{
+    display:grid;
+    grid-template-columns:auto auto;
+}
+.user-profile{
+    display:flex;
+    
+}
+.user-profile > span{
+    margin-left:5%;
+    display:flex;
+    align-items:center;
+
+}
+.user-profile > button:not(.follow){
+    font-size:large;
+    font-weight:bold;
+    padding:6% 0 0 0;
+    background:none;
+    border:none;
+}
+#comments{
+    width:40%;
+}
+
+
+.comments-content>span{
+    word-wrap:break-word;
+
+    width:20%;
+    font-size:1.5vw;
+    font-weight:normal;
+}
+
+.comments-content>div{
+    width:40%;
+    font-size:1%;
+    margin:1vw 0 0 0;
+}
+.comment-user{
+    padding-left:0;
+    font-size:medium;
+    font-weight:bolder;
+    padding-top:4%;
+}
 
 /* Add your styles here */

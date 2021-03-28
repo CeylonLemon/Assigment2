@@ -53,3 +53,20 @@ export function open(dom){
 export function close(dom){
     dom.style.visibility = 'hidden';
 }
+
+export function cleanBox(box){
+    while(box.hasChildNodes()){
+        box.removeChild(box.lastChild)
+    }
+}
+
+export function appendText(id,text){
+    document.getElementById(id).appendChild(
+        document.createTextNode(text))
+}
+
+export function createTextDom(tag,text){
+    const dom = document.createElement(tag)
+    dom.appendChild(document.createTextNode(text))
+    return dom
+}
