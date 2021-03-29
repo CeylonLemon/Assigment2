@@ -1,11 +1,11 @@
 import SERVICE, {
     addFeed,
     addPost,
-    addPostSubmit,
+    addPostSubmit, closeFollowWindow,
     editSubmit, followUser,
-    getAllPosts, getMyPosts,
+    getAllPosts, getMyPosts, openFollowWindow,
     showMyPosts,
-    showMyProfile, submitComment,
+    showMyProfile, submitComment, switchState,
     toStart
 } from "./service.js";
 import {addEventListener} from "./helpers.js";
@@ -24,7 +24,7 @@ window.onload=function(){
         'add-posts-submit': [addPostSubmit,service],
         'add-posts-btn':[addPost,''],
         'all-posts-btn': [getAllPosts,service],
-        'logout-btn': [logout,''],
+        'logout-btn': [logout,service],
         'personal-posts-btn': [getMyPosts,service],
         'my-profile-btn':[showMyProfile,service],
         'edit-submit':[editSubmit,service],
@@ -57,6 +57,46 @@ window.onload=function(){
         if(localStorage.getItem('scrollPosition') !== null)
             dom1.scrollTo(0, localStorage.getItem('scrollPosition'));
     },false);
+
+    const openWindow = document.querySelectorAll('[data-modal-target]')
+    const closeWindow = document.querySelectorAll('[data-close-button]')
+    const overlays = document.getElementsByClassName('overlay');
+
+    Array.from(overlays).forEach(o=>{
+        o.addEventListener('click',()=>{
+            const window = document.querySelectorAll('.follow-window.active')
+            window.forEach(win=>{
+                closeFollowWindow(win,o);
+            })
+        })
+    })
+
+    openWindow.forEach((btn,i) => {
+        btn.addEventListener('click', ()=>{
+            const window = document.querySelector(btn.dataset.modalTarget);
+            console.log(window)
+            const overlay = overlays[i];
+            openFollowWindow(window,overlay)
+        })
+    })
+
+    closeWindow.forEach((btn,i) =>{
+        btn.addEventListener('click', ()=>{
+            const window = btn.closest('.follow-window');
+            const overlay = overlays[i];
+            closeFollowWindow(window,overlay);
+        })
+    })
+
+    document.getElementById('follow_posts').addEventListener('click',()=>{
+
+        let name = document.getElementById('user_username').innerText;
+        console.log(document.getElementById('user_username'),name);
+        switchState('user-posts-btn');
+
+
+        getMyPosts(service,name);
+    })
 }
 
 

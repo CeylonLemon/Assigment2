@@ -54,9 +54,19 @@ export function close(dom){
     dom.style.visibility = 'hidden';
 }
 
-export function cleanBox(box){
-    while(box.hasChildNodes()){
-        box.removeChild(box.lastChild)
+export function cleanBox(box,...except){
+    if(except){
+        let itms = [];
+        except.forEach(e=>{
+            itms.push(document.getElementById(e).cloneNode(true))
+        })
+        while(box.hasChildNodes()) {
+            box.removeChild(box.lastChild)
+        }itms.forEach(i=>{
+            box.appendChild(i)
+        })
+    }else{
+        while(box.hasChildNodes()){box.removeChild(box.lastChild)}
     }
 }
 

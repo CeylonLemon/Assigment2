@@ -1,7 +1,7 @@
-import SERVICE from './service.js'
+import SERVICE, {switchState} from './service.js'
 import API from './api_.js';
 import {toStart,addPost,getAllPosts} from "./service.js";
-import {addEventListener} from "./helpers.js";
+import {addEventListener, closeById} from "./helpers.js";
 
 
         function clearboxs(){
@@ -174,6 +174,6 @@ import {addEventListener} from "./helpers.js";
             document.getElementById(id).style.visibility='hidden';
         }
 
-        export function logout(){
+        export function logout(service){
             alert('logout!')
         }

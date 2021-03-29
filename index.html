@@ -18,8 +18,15 @@
     <!-- This is an example app structure, you can modify this as much as you choose --> 
     <header class="banner">
         <h1>Quickpic</h1>
+        <div class="main-bar">
+            <button id="all-posts-btn" class="btn1" >Home</button>
+            <button id="add-posts-btn" class="btn1">Add Post</button>
+            <button id="personal-posts-btn" class="btn1">My Posts</button>
+            <button id="my-profile-btn" class="btn1">My profile</button>
 
-        <ul class="nav">
+        </div>
+
+        <div class="nav">
             <div class="lgout" ><span id="un_header"></span>
                 <button class="btn1" id="logout-btn" func="Logout">Logout</button></div>
             <div class="lgin" >
@@ -29,7 +36,7 @@
             
             
 
-        </ul>
+        </div>
         
     </header>
     <div class="main-container">
@@ -88,13 +95,7 @@
 
     </div>
     <main role="main" id="main-page" >
-        <div class="main-bar">
-            <button id="all-posts-btn" class="btn1" >Lobby</button>
-            <button id="add-posts-btn" class="btn1">Add Post</button>
-            <button id="personal-posts-btn" class="btn1">My Posts</button>
-            <button id="my-profile-btn" class="btn1">My profile</button>
 
-        </div>
         <div class="all_apps">
 
 
@@ -138,6 +139,16 @@
 <!--                        </div>-->
 
                 </div>
+                <div class="follow-window" id="all-follow-window">
+                    <div class="window-header">
+                        <div class="window-title">Follow:</div>
+                        <button data-close-button class="close-window-btn">&times;</button>
+
+                    </div>
+
+                    <div class="all-window-body">
+                    </div>
+                </div>
 
 
 
@@ -157,10 +168,42 @@
                 </div>
 
             </div>
+
             <div id="personal-posts">
+
+                <div class="follow-window" id="pp-follow-window">
+                    <div class="window-header">
+                        <div class="window-title">Follow:</div>
+                        <button data-close-button id="pp-window-close" class="close-window-btn">&times;</button>
+
+                    </div>
+
+                    <div class="pp-window-body">
+                    </div>
+                </div>
 
 
             </div>
+
+            <div id="user-posts">
+                <h1 id="up-header"></h1>
+                <div id="up-container"></div>
+
+
+                <div class="follow-window" id="up-follow-window">
+                    <div class="window-header">
+                        <div class="window-title">Comments:</div>
+                        <button data-close-button id="up-window-close" class="close-window-btn">&times;</button>
+
+                    </div>
+
+                    <div class="up-window-body">
+                    </div>
+                </div>
+
+            </div>
+
+
             <div id="my-profile" >
                 <ul class="pf" id="pf_header_un">
                     <h3 class="pf_header" >UserName: </h3 >
@@ -179,8 +222,33 @@
                     <span class="pf_content" id="pf_email"></span>
                     <button class="edit" id="edit_email">edit</button>
                 </ul>
+                <ul class="pf">
+                    <h3 class="pf_header" >Follows: </h3>
+                    <span class="pf_content" id="follow_num"></span>
+                    <button data-modal-target="#my-follow-window" id="view_follow">view</button>
+
+                </ul>
+                <ul class="pf">
+                    <h3 class="pf_header" >Followed: </h3>
+                    <span class="pf_content" id="pf_followed"></span>
+                    <button class="edit" id="empty_btn" style="visibility: hidden">view</button>
+                </ul>
+
+
 
                 <button id="edit-submit" >Submit</button>
+                <div class="follow-window" id="my-follow-window">
+                    <div class="window-header">
+                        <div class="window-title">Follow:</div>
+                        <button data-close-button class="close-window-btn">&times;</button>
+
+                    </div>
+
+                    <div class="window-body">
+                    </div>
+                </div>
+                <div class="overlay" id="my-overlay"></div>
+
 
 
 
@@ -188,10 +256,11 @@
             </div>
 
             <div id="user-profile" >
+
                 <ul class="user-profile" id="user_header_un">
                     <h3 class="user_header" >UserName: </h3 >
                     <span class="user_content" id="user_username"></span>
-                    <button class="follow" id="follow_user">follow</button>
+                    <button class="up_btn" id="follow_user">follow</button>
                 </ul>
                 <ul class="user-profile"><h3 class="pf_header" >Name: </h3>
                     <span class="user_content" id="user_name"></span>
@@ -204,22 +273,48 @@
 
                 <ul class="user-profile">
 <!--                    <h3 class="user_header" >Following: </h3>-->
-                    <button class="user_content" id="following"></button>
+                    <h3 class="user_header" >Follow: </h3>
+                    <span class="user_content" id="user_follow"></span>
+                    <button data-modal-target="#user-follow-window" class="up_btn" id="follow_following">view</button>
                 </ul>
 
                 <ul class="user-profile">
 <!--                    class<h3 class="user_header" >Followed: </h3>-->
-                    <button class="user_content" id="followed"></button>
+                    <h3 class="user_header" >Followed: </h3>
+                    <span class="user_content" id="user_followed"></span>
+                    <button class="up_btn" id="follow_followed" style="visibility: hidden">view</button>
+
                 </ul>
 
                 <ul class="user-profile">
 <!--                    <h3 class="user_header" >Posts: </h3>-->
-                    <button class="user_content" id="posts"></button>
+                    <h3 class="user_header" >Posts: </h3>
+                    <span class="user_content" id="user_posts"></span>
+                    <button class="up_btn" id="follow_posts">view</button>
                 </ul>
-        </div>
 
-        <!-- app goes here --> 
+                <div class="follow-window" id="user-follow-window">
+                    <div class="window-header">
+                        <div class="window-title">Follow:</div>
+                        <button data-close-button class="close-window-btn">&times;</button>
+
+                    </div>
+
+                    <div class="window-body">
+                    </div>
+                </div>
+
+                <div class="overlay" id="user-overlay"></div>
+                <div class="overlay" id="pp-overlay"></div>
+                <div class="overlay" id="all-overlay"></div>
+                <div class="overlay" id="up-overlay"></div>
+
+        </div>
+        </div>
     </main>
+        <!-- app goes here -->
+
+
     <footer>
         <p>© Quickpic</p>
     </footer>

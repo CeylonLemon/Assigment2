@@ -3,7 +3,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #fafafa;
+    background-color: white;
     height: 100%;
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -18,13 +18,22 @@ html, body {
     
 }
 .main-bar{
-    width:100%;
+    visibility:hidden;
+    width:45%;
     display:flex;
     align-items:center;
-    justify-content:center;
-    position: absolute;
+    justify-content:space-around;
     top: 13%;
 
+}
+
+.main-bar > button{
+    color:	#00CED1;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: medium;
+    font-weight: bold;
 }
 .main-btn{
     margin:1%;
@@ -154,12 +163,13 @@ span{
 }
 
 footer {
+    box-sizing:border-box;
     border-top: 1px solid rgba(0,0,0,.0975);
-    padding: 10px;
+    padding: 5px;
     background-color:white;
-    min-height: 60px;
     text-align: right;
 }
+
 
 .banner > *, footer > * {
     margin: 10px 25px;
@@ -168,9 +178,17 @@ footer {
 
 
 .nav{
+    
     list-style-type: none;
     padding: 0;
     
+}
+#login-btn,#register-btn,lgout>button{
+    cursor:pointer;
+    background:none;
+    border:none;
+    font-size:medium;
+    margin:0.5vw;
 }
 
 .lgout{
@@ -232,7 +250,7 @@ footer {
 /*#my-profile:first-child{*/
 /*    padding-left: 0;*/
 /*}*/
-.edit{
+.edit,#view_follow{
     height: 40%;
     position: relative;
     margin-top:3%;
@@ -258,7 +276,7 @@ table{
 
 
 
-#personal-posts{
+#personal-posts, #up-container{
     overflow: scroll;
     position: absolute;
     padding:1%;
@@ -273,7 +291,15 @@ table{
 
 
 }
+
+#up-container{
+    top:10vw;
+}
+
 .grid-item{
+    display:flex;
+    flex-direction:column;
+    padding:0 0 0 1vw;
     height: 30vw;
     width:20vw;
    
@@ -286,15 +312,22 @@ table{
 }
 
 .author-date{
+    height:3.2vw;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
 }
 .author-date :last-child{
     font-size: 1px;
+    display:flex;
+    align-items:flex-end;
 }
 
 .author-date :first-child{
+    border:none;
+    background:none;
+    margin-top:0.5vw;
+    height:60%;
     font-size: 20px;
     font-weight: bold;
 }
@@ -304,6 +337,10 @@ table{
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+}
+#description_text{
+    word-wrap:break-word;
+    padding:1vw 0 0 0;
 }
 .icons{
     margin: 5px 0 0 0;
@@ -324,7 +361,7 @@ table{
     height:70%;
     width:70%;
     position:absolute;
-    top:60%;
+    top:52%;
     left: 50%;
     transform: translate(-50%, -50%);
     display:flex;
@@ -332,34 +369,57 @@ table{
 }
 
 .follow-container {
+    background-color:#F0FFF0;
     width:30%;
     padding:10px;
-    border: 1px solid;
-    border-radius:15px;
-}
-.posts{
-    overflow:scroll;
-    width:50%;
-    padding:10px;
-    border: 1px solid;
+    border: 2px solid #D3D3D3;
     border-radius:15px;
 }
 
+.follow{
+    overflow:scroll;
+}
+.posts{
+    background-color:#AFEEEE;
+    overflow:scroll;
+    box-sizing:border-box;
+    width:60%;
+    padding:20px;
+    border: 2px solid #D3D3D3;
+    border-radius:15px;
+
+}
+
 .post{
+    border: 2px solid #D3D3D3;
+    border-radius:20px;
+    margin-bottom:2vw;
+    background-color:#E0FFFF;
     display: flex;
     justify-content: center;
 }
 #comments{
+    margin-left:1vw;
+    
     height:30vw;
+
 }
 
 
 #comments-content{
-    margin:0 0 0 1vw;
-    height:66%;
+    border:2px solid;
+    border-radius:15px;
+    margin:1.5vw 1vw 0 0;
+    height:60%;
     overflow:scroll;
 }
-
+#add-comment{
+    margin: 0.5vw 1vw 0 0;
+    
+}
+#add-comment > textarea{
+    margin: 0 0 0.2vw 0;
+}
 #user-profile{
     display:grid;
     grid-template-columns:auto auto;
@@ -374,17 +434,18 @@ table{
     align-items:center;
 
 }
-.user-profile > button:not(.follow){
-    font-size:large;
-    font-weight:bold;
-    padding:6% 0 0 0;
-    background:none;
-    border:none;
+.user-profile > button{
+    height:2.5vw;
+    margin:0.8vw 0 0 3vw;
 }
 #comments{
-    width:40%;
+    
+    width:45%;
 }
 
+.comments-content{
+    padding:1vw 0 0 1vw;
+}
 
 .comments-content>span{
     word-wrap:break-word;
@@ -406,4 +467,116 @@ table{
     padding-top:4%;
 }
 
+#comment-header{
+    display:flex;
+    justify-content:center;
+    background-color:#E0FFFF;
+    width:7.5vw;
+    top:2.3vw;
+    left:0.5vw;
+    position:relative;
+}
+
+.follow-window{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition:200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 500px;
+    max-width: 80%;
+    overflow:scroll;
+}
+
+.follow-window.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+.window-header{
+    
+    flex-direction:row;
+    padding:10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.window-header .window-title{
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.window-header .close-window-btn{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: 1.25rem;
+    font-weight: bold;
+}
+
+.pp-window-body {
+    padding: 10px 15px;
+}
+
+#my-overlay #user-overlay #up-overlay{
+    position: fixed;
+    opacity: 0;
+    transition:200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    pointer-events: none;
+}
+
+#my-overlay.active #user-overlay.active #up-overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.user_content{
+    padding:0 0 2vw 2vw;
+}
+
+#user-posts >h1{
+    position:absolute;
+    top:5vw;
+    left:50%;
+    transform:translate(-50%,0);
+}
 /* Add your styles here */
+
+#up-follow-window{
+    padding:1vw 0 0 0;
+    height:80%;
+    
+}
+
+.up-window-body{
+    padding:0.5vw 0 0 1vw;
+}
+
+.up-window-body >div >div{
+    display:flex;
+    align-items:center
+}
+
+.up-window-body >div >div >button{
+    border:none;
+    background:none;
+    font-size:medium;
+    height:2vw;
+}
+.up-window-body >div >h4{
+    font-size:1px;
+    font-weight:200;
+    padding-left:0.5vw;
+}
+
+
+

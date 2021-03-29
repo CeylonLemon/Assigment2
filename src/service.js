@@ -30,20 +30,6 @@ export default class SERVICE {
 
 
     }
-    // updateInfo = new Promise((resolve)=>{
-    //     this.httpGet(`user/?username=${this.username}`)
-    //         .then(data=>{
-    //             console.log(data)
-    //             this.id = data["id"];
-    //             this.username = data["username"];
-    //             this.email = data["email"];
-    //             this.posts = data["posts"];
-    //             this.following = data["following"];
-    //             this.followed_num = data["followed_num"];
-    //             console.log('after update, following',this.following);
-    //             resolve();
-    //         })
-    // })
     updateInfo(data){
         console.log(data)
         this.id = data["id"];
@@ -58,10 +44,11 @@ export default class SERVICE {
         console.log(111)
         document.getElementById('login').style.visibility='hidden'
         document.getElementsByClassName('lgin')[0].style
-            .display='none'
+            .visibility = 'hidden'
 
         document.getElementsByClassName('lgout')[0].style
             .visibility = 'visible'
+        document.getElementsByClassName('main-bar')[0].style.visibility = 'visible'
         document.getElementById('main-page').style.visibility='visible';
 
         this.httpGet(`user/?username = ${this.username}`)
@@ -97,20 +84,6 @@ export default class SERVICE {
         return this.api.makeAPIRequest(path, Para)
     }
 }
-// function updateInformation(service){
-//     return service.httpGet(`user/?username=${service.username}`)
-//         .then(data=>{
-//             console.log(data)
-//             service.id = data["id"];
-//             service.username = data["username"];
-//             service.email = data["email"];
-//             service.posts = data["posts"]
-//             service.following = data["following"]
-//             service.followed_num = data["followed_num"]
-//             console.log('after update, following',service.following)
-//         })
-//
-// }
 
 export function toStart(){
     const p = new Promise((resolve)=>{
@@ -129,6 +102,7 @@ export function toStart(){
 export function switchState(btn){
         const id = btn.slice(0,btn.length-4)
         const all_eles = Array.from(document.getElementsByClassName('all_apps')[0].children)
+        console.log(all_eles)
         const close_eles = all_eles.filter(ele=>ele.id !== id)
         console.log(close_eles)
         close_eles.forEach((b)=>b.style.visibility = 'hidden')
@@ -165,7 +139,7 @@ export function addPostSubmit(service){
 
 
 export function getAllPosts(service) {
-
+    service.allposts = [];
     switchState('all-posts-btn')
     const box = document.getElementsByClassName('posts')[0]
     cleanBox(box)
@@ -190,27 +164,8 @@ export function getAllPosts(service) {
             return 'ok'})
         .then((pos)=>{renderFollowList(service)})
 
-    // service.update.then(data=>{console.log(service.following);renderFollowList(service)})
 
-
-    // service.httpGet(`user/?username = ${service.username}`)
-    //     .then(data => {
-    //         console.log(service.following, data["following"])
-    //         const arr1 = Array.from(service.following)
-    //         const arr2 = Array.from(data["following"])
-    //         if (!arraysMatch(service.following, data["following"])) {
-    //             service.following = data["following"]
-    //             const box = document.getElementsByClassName('follow')[0];
-    //             cleanBox(box);
-    //             return true
-    //         }
-    //         return false
-    //     }).then(refresh => {
-    //     if (refresh) renderFollowList(service)
-    // })
-    // .catch(e=>alert(e.message))
     console.log(localStorage.getItem('scrollPosition'))
-    // box.scrollTo(0, localStorage.getItem('scrollPosition'));
 }
 
 export function addFeed(service){
@@ -233,17 +188,6 @@ export function addFeed(service){
             }).then(()=>service.stopScroll=false)
 
     }
-    // service.httpGet(`user/feed?n=${n}&p=${n+10}`)
-    //     .then((data)=>{
-    //         data["posts"].forEach((post)=>{
-    //             console.log(post["id"],post)
-    //             if(!service.allposts.includes(post["id"])){
-    //                 service.allposts.push(post["id"])
-    //                 console.log(data)
-    //                 renderPost(post,parent,service);
-    //             }
-    //         });return "ok";
-    //     }).then(()=>service.stopScroll=false)
 
 }
 
@@ -261,7 +205,22 @@ export function showMyProfile(service){
                 document.getElementById(id).innerText = data[id.slice(3)]
                 service[id.slice(3)] = data[id.slice(3)]
             })
-            document.getElementById('pf_password').innerText = service.password
+            document.getElementById('pf_password').innerText = service.password;
+            document.getElementById('follow_num').innerText = data["following"].length;
+            document.getElementById('pf_followed').innerText = data["followed_num"];
+            return data["following"]
+
+        })
+        .then((data)=>{
+            const parent = document.getElementsByClassName('pp-window-body')[0];
+            cleanBox(parent);
+            data.forEach((id) =>{
+                    service.httpGet(`user/?id=${id}`)
+                        .then(data=>{
+                            parent.appendChild(createTextDom('ul',data["username"]))
+                        })
+                }
+            )
         })
         .catch(e=>{alert(e.message)})
 }
@@ -285,12 +244,42 @@ export function showUserProfile(id,service){
             appendText('user_username',data["username"])
             appendText('user_name',data["name"])
             appendText('user_email',data["email"])
-            appendText('following',`Following:  ${data["following"].length}`)
-            appendText('followed',`Followed:  ${data["followed_num"]}`)
-            appendText('posts',`Posts:  ${data["posts"].length}`)
-        })
+            appendText('user_follow',data["following"].length)
+            appendText('user_followed',data["followed_num"])
+            appendText('user_posts',data["posts"].length)
+            return data["following"]
+
+        }).then((data)=>{
+        const parent = document.getElementsByClassName('window-body')[0];
+        cleanBox(parent);
+        data.forEach((id) =>{
+                service.httpGet(`user/?id=${id}`)
+                    .then(data=>{
+                        parent.appendChild(createTextDom('ul',data["username"]))
+                    })
+            }
+        )
+    })
 
 
+
+}
+
+export function openFollowWindow(window,overlay){
+    console.log('open!')
+    console.log(window)
+
+    if(window==null) return
+    window.classList.add('active')
+    console.log(window);
+    overlay.classList.add('active')
+}
+
+export function closeFollowWindow(window,overlay){
+    console.log(window,overlay)
+    if(window==null) return
+    window.classList.remove('active')
+    overlay.classList.remove('active')
 }
 
 
@@ -342,58 +331,68 @@ export function editSubmit(s){
 
 
 
-export function getMyPosts(service){
-    //send http request
-    const p = new Promise((resolve)=>{
-        console.log(1)
-        let refresh = false
-        service.httpGet('user/')
-            .then(data=>{
-                console.log(data["posts"])
-                console.log(service.posts)
-                if (!arraysMatch(data["posts"],service.posts)){
+export function getMyPosts(service,user=''){
+    const path = (user) ?`user/?username=${user}`:'user/';
+    service.httpGet(path)
+        .then(data=>{
+            service.posts = data["posts"]
+            service.userid = data["id"];
+            return "ok"
+        })
+        .then(()=>{
+            let Id = (user) ?'user-posts':'personal-posts';
+            let Parent = document.getElementById(Id);
+            if(user) {
+                cleanBox(Parent, 'up-follow-window', 'up-overlay');
+                document.getElementById('up-window-close').addEventListener('click', () => {
+                    const win = document.getElementById('up-follow-window');
+                    const overlay = document.getElementById('up-overlay')
+                    closeFollowWindow(win, overlay)
+                });
+            }
+            else {
+                cleanBox(Parent, 'pp-follow-window');
+                document.getElementById('pp-window-close').addEventListener('click', () => {
+                    const win = document.getElementById('pp-follow-window');
+                    const overlay = document.getElementById('pp-overlay')
+                    closeFollowWindow(win, overlay)
+                });
+            }
 
-                    console.log(2)
-                    service.posts = data["posts"]
-                    refresh = true
-                }
-                service.userid = data["id"];
-                resolve(refresh)
-            })
+            let postType = (user)?'userPost':'myPost';
+            if(user){
+                Parent.appendChild(createTextDom('h1',`${user}'s Posts`))
+                const p = createTextDom('div','')
+                p.id = 'up-container'
+                Parent.appendChild(p);
+                Parent = p
+            }
 
-    })
-    p.then((refresh)=>{
-        console.log(service.posts);
-        console.log(service.posts)
-        if(refresh){
-            const Parent = document.getElementById('personal-posts');
-            const box = document.getElementById('personal-posts')
-            cleanBox(box)
             service.posts.reverse().forEach((id)=>{
                 service.httpGet(`post/?id=${id}`)
                     .then(data=>{
-                        console.log(data)
-
-                        renderPost(data,Parent,service)
-
+                        renderPost(data,Parent,service,postType)
                     })
             })
-            Parent.scrollTo(0, localStorage.getItem('scrollPosition'));
-        }
     })
 }
 
-function renderPost(data,Parent,service){
+
+function renderPost(data,Parent,service,postType='allPost'){
     //create dom
     const Post = document.createElement('div');
     const Description = document.createElement('div');
     const picDate = document.createElement('div');
-    const likes = document.createElement('div');
+
     const Author = document.createElement('button');
     const Author_Date = document.createElement('div');
     const newCell = document.createElement('div');
     const metaData = document.createElement('div');
     const icons = document.createElement('div');
+    let prefix = undefined;
+    if(postType==='myPost') prefix = 'pp';
+    else if(postType==='userPost') prefix = 'up';
+    else  prefix = 'all';
 
 
 
@@ -401,7 +400,16 @@ function renderPost(data,Parent,service){
     const Img = document.createElement('img');
     Img.src= 'data:image/png;base64,'+data["src"]
     newCell.className = "grid-item"
-    Author.appendChild(document.createTextNode(data["meta"]["author"]))
+    if(postType==='myPost'){
+        Author.appendChild(document.createTextNode('Delete'))
+        Author.addEventListener('click',()=>{deletePost(data["id"],service)})
+        Author.style.color = "red";
+    }
+    else{
+        Author.appendChild(document.createTextNode(data["meta"]["author"]))
+        Author.addEventListener('click',()=>{showUserProfile(data["meta"]["author"],service)})
+    }
+
 
 
     Description.appendChild(document.createTextNode(data["meta"]["description_text"]));
@@ -414,7 +422,7 @@ function renderPost(data,Parent,service){
     Author_Date.className = 'author-date'
 
 
-    metaData.appendChild(Author_Date);
+    // metaData.appendChild(Author_Date);
     metaData.appendChild(Description);
     metaData.className = 'metaData';
 
@@ -424,29 +432,103 @@ function renderPost(data,Parent,service){
     console.log(data["id"],service.likes)
     if(service.likes.includes(data["id"])){
         heart_icon.appendChild(document.createTextNode(String.fromCodePoint(9829)))
-        heart_icon.addEventListener('click',()=>{likePost(service,data["id"],false)})
+        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data["id"],false)})
     }else{
         heart_icon.appendChild(document.createTextNode(String.fromCodePoint(9825)))
-        heart_icon.addEventListener('click',()=>{likePost(service,data["id"])})
+        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data["id"])})
     }
     heart_icon.style.cssText  = "background:none;border:none";
     heart_icon.id = `like-${data["id"]}`
 
-    likes.appendChild(document.createTextNode(data["meta"]["likes"].length))
+
+    const likes = createTextDom('button',data["meta"]["likes"].length);
+
+        // dialog_icon.setAttribute('data-modal-target', '#up-follow-window');
+
+
+        likes.addEventListener('click', ()=>{
+            const header = document.getElementById(`${prefix}-follow-window`).children[0].children[0]
+            header.replaceWith(createTextDom('div','Liked by:'))
+            header.className='window-title'
+            const p = document.getElementsByClassName(`${prefix}-window-body`)[0];
+            cleanBox(p);
+
+                console.log(data["meta"]["likes"],data)
+                const likes = data["meta"]["likes"]
+                likes.forEach(id=>{
+                    service.httpGet(`user/?id=${id}`)
+                        .then(dt=>{
+                            let name = createTextDom('button',dt["username"])
+                            name.addEventListener('click',()=>{showUserProfile(dt["username"],service)})
+                            p.appendChild(name);
+                        })
+                })
+
+
+            let win = document.getElementById(`${prefix}-follow-window`);
+            console.log(win)
+            console.log(document.getElementsByClassName('follow-window'))
+            const overlay = document.getElementById(`${prefix}-overlay`);
+            openFollowWindow(win,overlay)
+        })
+
+
     heart.className = 'heart'
     heart.appendChild(heart_icon)
     heart.appendChild(likes)
 
     const dialogs = document.createElement('div');
-    const dialog_icon = document.createElement('div')
+    const dialog_icon = document.createElement('button')
     dialog_icon.appendChild(document.createTextNode(String.fromCodePoint(128172)))
+
+        // dialog_icon.setAttribute('data-modal-target', '#up-follow-window');
+
+
+        dialog_icon.addEventListener('click', ()=>{
+            const header = document.getElementById(`${prefix}-follow-window`).children[0].children[0]
+            header.replaceWith(createTextDom('div','Comments:'))
+            header.className='window-title'
+            const p = document.getElementsByClassName(`${prefix}-window-body`)[0];
+            cleanBox(p);
+            data["comments"].forEach(c=>{
+                let author = createTextDom('button',`${c["author"]} :`);
+                author.addEventListener('click',()=>{showUserProfile(author,service)});
+                let content = createTextDom('h3',c["comment"]);
+                let author_content = createTextDom('div','');
+                let Date = createTextDom('h4',toDateTime(c["published"]));
+                let comment = createTextDom('div','');
+                console.log(content)
+                author_content.appendChild(author);
+                author_content.appendChild(content);
+                comment.appendChild(author_content);
+                comment.appendChild(Date);
+
+                p.appendChild(comment)
+            })
+            let win = document.getElementById(`${prefix}-follow-window`);
+            console.log(win)
+
+            const overlay = document.getElementById(`${prefix}-overlay`);
+            console.log(overlay)
+            openFollowWindow(win,overlay)
+        })
+
+
     const comments = document.createElement('div')
     comments.appendChild(document.createTextNode(data["comments"].length));
     dialogs.appendChild(dialog_icon)
     dialogs.appendChild(comments)
 
-    icons.append(heart)
-    icons.append(dialogs)
+    icons.appendChild(heart)
+    icons.appendChild(dialogs)
+    icons.className = 'icons'
+    if(postType==='myPost'){
+        const edit_des = createTextDom('button','edit')
+        edit_des.addEventListener('click',()=>{editDescription(data["id"],Description,icons,service)})
+        icons.appendChild(edit_des);
+    }
+
+
     icons.className = 'icons'
 
     metaData.appendChild(icons)
@@ -455,11 +537,13 @@ function renderPost(data,Parent,service){
 
 
     //
+    newCell.appendChild(Author_Date);
     newCell.appendChild(Img);
     newCell.appendChild(metaData);
 
     Post.appendChild(newCell)
-    Post.appendChild(renderComment(data,service))
+    if(postType==='allPost') Post.appendChild(renderComment(data,service))
+
     Post.className = "post"
 
     Parent.appendChild(Post);
@@ -468,22 +552,66 @@ function renderPost(data,Parent,service){
     //show comments
 }
 
+function editDescription(id, des, icons,service){
+    const edit = createTextDom('textarea',des.innerText);
+    const btn = icons.children[2];
+    console.log(btn);
+    const new_btn = createTextDom('button','submit');
+    const file_input = createTextDom('input','New file');
+    file_input.type = "file";
+
+    des.replaceWith(edit);
+    btn.replaceWith(new_btn);
+    new_btn.parentNode.insertBefore(file_input, new_btn.nextSibling)
+    new_btn.addEventListener('click',()=>{SubmitEditDes(edit,btn,id,file_input,service)})
+    console.log(des,btn);
+}
+
+function SubmitEditDes(edit,btn,id,file_input,service){
+    const des = edit.value;
+
+    const file = file_input.files[0];
+    const Data = {
+        "description_text":des,
+    }
+    if(file) {
+        fileToDataUrl(file)
+            .then(url=>{
+                console.log(url)
+                return url.split(',')[1]
+            })
+            .then((url)=>{
+                Data["src"] = url;
+                return "ok"
+            })
+            .then(()=>{
+                service.httpPost(`post/?id=${id}`,Data,"PUT")
+                    .then(getMyPosts(service))
+        })
+    }else{
+        service.httpPost(`post/?id=${id}`,Data,"PUT")
+            .then(getMyPosts(service));
+    }
+
+
+
+
+}
+
 function renderComment(data,service){
     //comments(comments-container(likedby,comments[1,2,3]))
     const comments = document.createElement('div');
     const comments_container = document.createElement('div');
     const add_comment = document.createElement('div');
     // comments.appendChild(comments_container)
-    const users_liked = data["meta"]["likes"].join(', ');
-    const liked_by = document.createElement('div');
-    const text = createTextDom('h4',`Liked by: ${users_liked}`)
 
-    liked_by.appendChild(text);
-    liked_by.style.margin = "0 0 0 1vw";
-    comments.appendChild(liked_by)
+
+
+
 
     const comments_content = document.createElement('div');
     const comments_header = createTextDom('h3','comments');
+    comments_header.id = 'comment-header';
     comments_header.style.margin = "0 0 0 1vw";
     Array.from(data["comments"]).reverse().forEach((comment)=>{
         const author = createTextDom('button',`${comment['author']}: `)
@@ -502,9 +630,13 @@ function renderComment(data,service){
     comments.appendChild(comments_header)
     comments.appendChild(comments_content)
 
+
+
     const textarea = document.createElement('textarea');
     textarea.id = `comment-content-${data["id"]}`
     textarea.placeholder = "Write your comment..."
+    textarea.cols = 25;
+    textarea.rows = 2;
     const comment_btn = document.createElement('button');
     comment_btn.appendChild(document.createTextNode('submit'))
     comment_btn.id = `comment-submit-${data["id"]}`
@@ -513,13 +645,21 @@ function renderComment(data,service){
     comment_btn.addEventListener('click',()=>{submitComment(service,data["id"])})
     add_comment.appendChild(textarea);
     add_comment.appendChild(comment_btn);
-    add_comment.style.margin = "1vw 0 0 1vw";
     add_comment.id="add-comment"
 
 
 
     comments.appendChild(add_comment);
     comments.id = "comments"
+
+    const users_liked =data["meta"]["likes"]
+    console.log(users_liked)
+    let liked_users = users_liked.join(', ');
+    const liked_by = document.createElement('div');
+    const text = createTextDom('h4',`Liked by: ${liked_users}`)
+    liked_by.appendChild(text);
+    liked_by.style.margin = "0.5vw 0 0 0vw";
+    comments.appendChild(liked_by)
 
 
 
@@ -590,14 +730,21 @@ function renderFollowList(service){
             service.httpGet(`user/?id=${id}`)
                 .then(data=>{console.log(data);return data["username"]})
                 .then(name=>{
-                    const ele = createTextDom('ul',name)
+                    const oneLine = createTextDom('ul','');
+                    const ele = createTextDom('button',name)
                     const uf_btn = createTextDom('button','unfollow');
                     uf_btn.addEventListener('click',()=>{
                         unFollowUser(service,name)
                     })
+                    ele.addEventListener('click',()=>{
+                        showUserProfile(name,service);
+                    })
                     uf_btn.style.display = "inline-block";
-                    parent.appendChild(ele)
-                    parent.appendChild(uf_btn)
+                    ele.style.cssText = "background:none;border:none"
+                    
+                    oneLine.appendChild(ele)
+                    oneLine.appendChild(uf_btn)
+                    parent.appendChild(oneLine);
                 })
         })
     }
@@ -664,4 +811,17 @@ function removeItem(arr,val){
         }
 
     }
+}
+
+function deletePost(id,service){
+    service.httpGet(`post/?id=${id}`,"DELETE")
+        .then(()=>getMyPosts(service))
+}
+
+export function showUserFollowing(service){
+
+}
+
+export function showUserPosts(service){
+
 }
