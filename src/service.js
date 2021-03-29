@@ -701,6 +701,7 @@ export function followUser(service,user=undefined){
         return
     }
     service.httpGet(`user/follow/?username=${user}`,"PUT")
+        .then(service.following.push())
         .then(()=>{
             getAllPosts(service);
         }).catch(e=>{alert(e.message)})
@@ -730,27 +731,31 @@ function renderFollowList(service){
         parent.appendChild(ele)
     }else{
         console.log(service.following)
-        service.following.forEach((id)=>{
-            service.httpGet(`user/?id=${id}`)
-                .then(data=>{console.log(data);return data["username"]})
-                .then(name=>{
-                    const oneLine = createTextDom('ul','');
-                    const ele = createTextDom('button',name)
-                    const uf_btn = createTextDom('button','unfollow');
-                    uf_btn.addEventListener('click',()=>{
-                        unFollowUser(service,name)
-                    })
-                    ele.addEventListener('click',()=>{
-                        showUserProfile(name,service);
-                    })
-                    uf_btn.style.display = "inline-block";
-                    ele.style.cssText = "background:none;border:none"
-                    
-                    oneLine.appendChild(ele)
-                    oneLine.appendChild(uf_btn)
-                    parent.appendChild(oneLine);
-                }).catch(e=>{alert(e.message)})
-        })
+        service.httpGet('user/')
+            .then(data=>{
+                data["following"].forEach((id)=>{
+                    service.httpGet(`user/?id=${id}`)
+                        .then(data=>{console.log(data);return data["username"]})
+                        .then(name=>{
+                            const oneLine = createTextDom('ul','');
+                            const ele = createTextDom('button',name)
+                            const uf_btn = createTextDom('button','unfollow');
+                            uf_btn.addEventListener('click',()=>{
+                                unFollowUser(service,name)
+                            })
+                            ele.addEventListener('click',()=>{
+                                showUserProfile(name,service);
+                            })
+                            uf_btn.style.display = "inline-block";
+                            ele.style.cssText = "background:none;border:none"
+
+                            oneLine.appendChild(ele)
+                            oneLine.appendChild(uf_btn)
+                            parent.appendChild(oneLine);
+                        }).catch(e=>{alert(e.message)})
+                })
+            })
+
     }
 
     console.log(service.following)
