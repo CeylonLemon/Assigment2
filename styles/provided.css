@@ -578,5 +578,72 @@ table{
     padding-left:0.5vw;
 }
 
+.icons >div >button{
+    border:none;
+    background:none;
 
+}
 
+.icons{
+    margin:0 0 0.5vw 0;
+}
+
+#comments > div >h4{
+    font-size:small;
+    overflow:scroll;
+}
+
+.follow ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+@media only screen and (max-width: 414px) {
+  #all-posts{
+      width:90%;
+  }
+  #comment-header ,#comments-content {
+    display:none;
+  }
+  .post{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+
+  }
+  .grid-item{
+      display:flex;
+      justify-content:space-between;
+      padding:0 0 0 3vw;
+      height:40vw;
+  }
+  #description_text{
+      width:70vw;
+  }
+  .date{
+      font-size:xx-small;
+      margin:13vw 0 0 0;
+  }
+  img{
+      padding:5vw 0 0 0;
+  }
+  #add-comment textarea{
+      width:30vw;
+  }
+}
+
+@media only screen and (max-width: 768px){
+    #comment-header{
+        display:none
+    }
+    #add-comment>textarea{
+        width:90%;
+        margin:0 0 0 0;
+    }
+    .date{
+      visibility:hidden;
+    }
+    .post{
+        height:35vw;
+    }
+}

@@ -157,12 +157,13 @@ export function getAllPosts(service) {
                 })
 
         }).then(()=>{box.scrollTo(0, pos);console.log(pos)})
-    // .catch(e=>{alert(e.message)})
+    .catch(e=>{alert(e.message)})
     service.httpGet(`user/?username = ${service.username}`)
         .then(data=>{
             service.following = data["following"];
             return 'ok'})
         .then((pos)=>{renderFollowList(service)})
+        .catch(e=>{alert(e.message)})
 
 
     console.log(localStorage.getItem('scrollPosition'))
@@ -186,6 +187,7 @@ export function addFeed(service){
 
                 });return "ok";
             }).then(()=>service.stopScroll=false)
+            .catch(e=>{alert(e.message)})
 
     }
 
@@ -259,7 +261,7 @@ export function showUserProfile(id,service){
                     })
             }
         )
-    })
+    }).catch(e=>{alert(e.message)})
 
 
 
@@ -326,7 +328,7 @@ export function editSubmit(s){
                 closeById('edit-submit')
             })
             alert('success!')
-        })
+        }).catch(e=>{alert(e.message)})
 }
 
 
@@ -432,10 +434,10 @@ function renderPost(data,Parent,service,postType='allPost'){
     console.log(data["id"],service.likes)
     if(service.likes.includes(data["id"])){
         heart_icon.appendChild(document.createTextNode(String.fromCodePoint(9829)))
-        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data["id"],false)})
+        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data,false,postType)})
     }else{
         heart_icon.appendChild(document.createTextNode(String.fromCodePoint(9825)))
-        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data["id"])})
+        if(postType!=='myPost') heart_icon.addEventListener('click',()=>{likePost(service,data,true,postType)})
     }
     heart_icon.style.cssText  = "background:none;border:none";
     heart_icon.id = `like-${data["id"]}`
@@ -461,7 +463,7 @@ function renderPost(data,Parent,service,postType='allPost'){
                             let name = createTextDom('button',dt["username"])
                             name.addEventListener('click',()=>{showUserProfile(dt["username"],service)})
                             p.appendChild(name);
-                        })
+                        }).catch(e=>{alert(e.message)})
                 })
 
 
@@ -587,10 +589,12 @@ function SubmitEditDes(edit,btn,id,file_input,service){
             .then(()=>{
                 service.httpPost(`post/?id=${id}`,Data,"PUT")
                     .then(getMyPosts(service))
+                    .catch(e=>{alert(e.message)})
         })
     }else{
         service.httpPost(`post/?id=${id}`,Data,"PUT")
-            .then(getMyPosts(service));
+            .then(getMyPosts(service))
+    .catch(e=>{alert(e.message)});
     }
 
 
@@ -699,7 +703,7 @@ export function followUser(service,user=undefined){
     service.httpGet(`user/follow/?username=${user}`,"PUT")
         .then(()=>{
             getAllPosts(service);
-        })
+        }).catch(e=>{alert(e.message)})
         // .catch(e=>alert(e.message))
 }
 
@@ -745,7 +749,7 @@ function renderFollowList(service){
                     oneLine.appendChild(ele)
                     oneLine.appendChild(uf_btn)
                     parent.appendChild(oneLine);
-                })
+                }).catch(e=>{alert(e.message)})
         })
     }
 
@@ -768,7 +772,7 @@ export function submitComment(service,id){
             service.allPosts = [];
             //rerender comment
             getAllPosts(service);
-        })
+        }).catch(e=>{alert(e.message)})
 }
 
 function addMyComment(text,service){
@@ -786,17 +790,26 @@ function addMyComment(text,service){
     comments_content.className = "comments-content"
 }
 
-function likePost(service,id,like=true){
+function likePost(service,data,like=true,postType="allPost"){
     //send request
     if(!like){
-        service.httpGet(`post/unlike?id=${id}`,"PUT")
-            .then(removeItem(service.likes,id))
-            .then(()=>{getAllPosts(service)})
-    }else{
-        service.httpGet(`post/like?id=${id}`,"PUT")
+        service.httpGet(`post/unlike?id=${data["id"]}`,"PUT")
+            .then(removeItem(service.likes,data["id"]))
             .then(()=>{
-                service.likes.push(id)
-            }).then(()=>{getAllPosts(service)})
+                if(postType==="allPost")getAllPosts(service);
+                if(postType==="myPost")getMyPosts(service);
+                if(postType==="userPost")getMyPosts(service,data["meta"]["author"]);
+            }).catch(e=>{alert(e.message)})
+    }else{
+        service.httpGet(`post/like?id=${data['id']}`,"PUT")
+            .then(()=>{
+                service.likes.push(data["id"])
+            }).then(()=>{
+            if(postType==="allPost")getAllPosts(service);
+            if(postType==="myPost")getMyPosts(service);
+            if(postType==="userPost")getMyPosts(service,data["meta"]["author"]);
+
+            }).catch(e=>{alert(e.message)})
     }
     //rerender
 
@@ -816,12 +829,6 @@ function removeItem(arr,val){
 function deletePost(id,service){
     service.httpGet(`post/?id=${id}`,"DELETE")
         .then(()=>getMyPosts(service))
+        .catch(e=>{alert(e.message)})
 }
 
-export function showUserFollowing(service){
-
-}
-
-export function showUserPosts(service){
-
-}

@@ -90,6 +90,7 @@ import {addEventListener, closeById} from "./helpers.js";
                         service.startService();
                     }).catch(e=>{
                         alert('Invalid username/password!')
+                    return
                 })
 
             }
